@@ -67,17 +67,20 @@ var availableColumns = []columnDef{
 	},
 }
 
-func NewElasticacheService(ctx context.Context, profile string) (*ElasticacheService, error) {
+func NewElasticacheService(ctx context.Context, profile string, region string) (*ElasticacheService, error) {
 	var cfg aws.Config
 	var err error
 
+	opts := []func(*config.LoadOptions) error{}
+
 	if profile != "" {
-		// Load the configuration for the specified profile
-		cfg, err = config.LoadDefaultConfig(ctx, config.WithSharedConfigProfile(profile))
-	} else {
-		// Use the default configuration
-		cfg, err = config.LoadDefaultConfig(ctx)
+		opts = append(opts, config.WithSharedConfigProfile(profile))
 	}
+	if region != "" {
+		opts = append(opts, config.WithRegion(region))
+	}
+
+	cfg, err = config.LoadDefaultConfig(ctx, opts...)
 
 	if err != nil {
 		return nil, err

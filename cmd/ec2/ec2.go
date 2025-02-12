@@ -61,8 +61,9 @@ func NewEC2Cmd() *cobra.Command {
 		Run: func(cobraCmd *cobra.Command, args []string) {
 			ctx := context.TODO()
 			profile, _ := cobraCmd.Root().PersistentFlags().GetString("profile")
+			region, _ := cobraCmd.Root().PersistentFlags().GetString("region")
 
-			svc, err := ec2.NewEC2Service(ctx, profile)
+			svc, err := ec2.NewEC2Service(ctx, profile, region)
 			if err != nil {
 				log.Fatalf("Failed to initialize EC2 service: %v", err)
 			}

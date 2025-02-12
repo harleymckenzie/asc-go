@@ -85,15 +85,20 @@ var availableColumns = []columnDef{
 	},
 }
 
-func NewRDSService(ctx context.Context, profile string) (*RDSService, error) {
+func NewRDSService(ctx context.Context, profile string, region string) (*RDSService, error) {
 	var cfg aws.Config
 	var err error
 
+	opts := []func(*config.LoadOptions) error{}
+
 	if profile != "" {
-		cfg, err = config.LoadDefaultConfig(ctx, config.WithSharedConfigProfile(profile))
-	} else {
-		cfg, err = config.LoadDefaultConfig(ctx)
+		opts = append(opts, config.WithSharedConfigProfile(profile))
 	}
+	if region != "" {
+		opts = append(opts, config.WithRegion(region))
+	}
+
+	cfg, err = config.LoadDefaultConfig(ctx, opts...)
 
 	if err != nil {
 		return nil, err

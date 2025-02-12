@@ -57,8 +57,9 @@ func NewElasticacheCmd() *cobra.Command {
 		Run: func(cobraCmd *cobra.Command, args []string) {
 			ctx := context.TODO()
 			profile, _ := cobraCmd.Root().PersistentFlags().GetString("profile")
+			region, _ := cobraCmd.Root().PersistentFlags().GetString("region")
 
-			svc, err := elasticache.NewElasticacheService(ctx, profile)
+			svc, err := elasticache.NewElasticacheService(ctx, profile, region)
 			if err != nil {
 				log.Fatalf("Failed to initialize Elasticache service: %v", err)
 			}

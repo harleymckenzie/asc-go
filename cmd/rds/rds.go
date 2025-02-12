@@ -63,9 +63,10 @@ func NewRDSCmd() *cobra.Command {
 		},
 		Run: func(cobraCmd *cobra.Command, args []string) {
 			ctx := context.TODO()
-			profile, _ := cmd.Root().PersistentFlags().GetString("profile")
+			profile, _ := cobraCmd.Root().PersistentFlags().GetString("profile")
+			region, _ := cobraCmd.Root().PersistentFlags().GetString("region")
 
-			svc, err := rds.NewRDSService(ctx, profile)
+			svc, err := rds.NewRDSService(ctx, profile, region)
 			if err != nil {
 				log.Fatalf("Failed to initialize RDS service: %v", err)
 			}
