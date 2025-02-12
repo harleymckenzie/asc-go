@@ -6,6 +6,7 @@ import (
 	"github.com/harleymckenzie/asc/cmd/ec2"
 	"github.com/harleymckenzie/asc/cmd/elasticache"
 	"github.com/harleymckenzie/asc/cmd/rds"
+	"github.com/harleymckenzie/asc/cmd/ssm"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +27,7 @@ func NewRootCmd() *cobra.Command {
 	cmds.AddCommand(ec2.NewEC2Cmd())
 	cmds.AddCommand(rds.NewRDSCmd())
 	cmds.AddCommand(elasticache.NewElasticacheCmd())
-
+	cmds.AddCommand(ssm.NewSSMCmd())
 	return cmds
 }
 
